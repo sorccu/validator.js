@@ -37,7 +37,7 @@
 		var components = dateRegex.exec(dateString);
 		if (!components) return NaN;
 		return parseInt(components[1], 10) * 373
-			+ parseInt(components[2], 10) * 12
+			+ parseInt(components[2], 10) * 31
 			+ parseInt(components[3], 10);
 	}
 
