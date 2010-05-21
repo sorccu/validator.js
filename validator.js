@@ -83,8 +83,10 @@
 	}
 
 	function type(input) {
-		if (input.nodeName.toLowerCase() == 'textarea') return 'text';
-		return input.getAttribute('type').toLowerCase();
+		if (input.nodeName.toLowerCase() == 'input') {
+			return input.getAttribute('type').toLowerCase();
+		}
+		return 'text';
 	}
 
 	function weekToNumber(weekString) {
@@ -364,7 +366,7 @@
 	//	$('form').bind('submit', onFormSubmitted);
 	//});
 
-	$('input, textarea').live('focusout', function() {
+	$('input, textarea, select').live('focusout', function() {
 		if (!$(this).willValidate()) return;
 		$(this).checkValidity();
 	});
@@ -378,7 +380,7 @@
 		$(this.form).data('submitTriggeredBy', this);
 	});
 
-	$('input, textarea').live('valid invalid', function(e) {
+	$('input, textarea, select').live('valid invalid', function(e) {
 		$(this)
 			.removeClass('error')
 			.removeClass('valid')
@@ -411,6 +413,7 @@
 					case 'input':
 						if (ignoreTypes[this.type]) return;
 						// fall through on purpose
+					case 'select':
 					case 'textarea':
 						if (rules.test(this, this.form)) {
 							$(this).trigger('valid');
@@ -421,7 +424,7 @@
 						}
 						break;
 					case 'form':
-						if (!$(this).find('input, textarea').checkValidity()) {
+						if (!$(this).find('input, textarea, select').checkValidity()) {
 							valid = false;
 						}
 						break;
@@ -440,6 +443,7 @@
 							return true;
 						}
 						break;
+					case 'select':
 					case 'textarea':
 						return !isDisabled(el);
 					case 'form':
